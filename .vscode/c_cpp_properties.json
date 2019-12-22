@@ -1,0 +1,49 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\Users\\carln\\AppData\\Local\\Arduino15\\packages\\MySensors\\hardware\\nRF5\\0.3.0\\**",
+                "${workspaceFolder}/**",
+                "C:/Users/carln/AppData/Local/arduino15/packages/sandeepmistry/hardware/nRF5/0.6.0",
+                "C:/Users/carln/AppData/Local/arduino15/packages/sandeepmistry/hardware/nRF5/0.6.0/cores/nRF5",
+                "C:/Users/carln/AppData/Local/arduino15/packages/MySensors/hardware/nRF5/0.3.0",
+                "D:/carln/Documents/Arduino/libraries/**",
+                "C:/Users/carln/AppData/Local/arduino15/packages/sandeepmistry/hardware/nRF5/0.6.0/cores/nRF5/SDK/components/drivers_nrf/delay",
+                "C:/Users/carln/AppData/Local/arduino15/packages/sandeepmistry/hardware/nRF5/0.6.0/cores/nRF5/SDK/components/device",
+                "C:/Users/carln/AppData/Local/arduino15/packages/sandeepmistry/hardware/nRF5/0.6.0/cores/nRF5/SDK/components/toolchain/CMSIS/Include",
+                "C:/Users/carln/AppData/Local/arduino15/packages/sandeepmistry/hardware/nRF5/0.6.0/cores/nRF5/SDK/components/toolchain",
+                "C:/Users/carln/AppData/Local/arduino15/packages/MySensors/hardware/nRF5/0.3.0/variants/MyBoardNRF5",
+                "C:/ArduinoBuilds"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "F_CPU=16000000L",
+                "ARDUINO=10809",
+                "ARDUINO_GENERIC",
+                "ARDUINO_ARCH_NRF5",
+                "NRF52",
+                "MYBOARDNRF5",
+                "NRF5"
+            ],
+            "compilerPath": "C:/Users/carln/AppData/Local/arduino15/packages/sandeepmistry/tools/gcc-arm-none-eabi/5_2-2015q4/bin/arm-none-eabi-g++.exe",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}",
+                    "C:/Users/carln/AppData/Local/arduino15/packages/sandeepmistry/hardware/nRF5/0.6.0",
+                    "C:/Users/carln/AppData/Local/arduino15/packages/MySensors/hardware/nRF5/0.3.0",
+                    "D:/carln/Documents/Arduino"
+                ],
+                "limitSymbolsToIncludedHeaders": true,
+                "databaseFilename": ""
+            },
+            "forcedInclude": []
+        }
+    ],
+    "version": 4
+}

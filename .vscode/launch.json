@@ -1,0 +1,31 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "bmp",
+            "cwd": "${workspaceRoot}",
+            "executable": "C:/ArduinoBuilds/BT8_BME280_Sketch.ino.elf",
+            "name": "Debug (Black Magic Probe)",
+            "device": "nRF52832_xxAA",
+            "BMPGDBSerialPort": "COM8",
+            "targetId": 1
+        },
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "jlink",
+            "cwd": "${workspaceRoot}",
+            "executable": "C:/ArduinoBuilds/BT8_BME280_Sketch.ino.elf",
+            "name": "Debug (J-Link)",
+            "device": "nRF52832_xxAA",
+            "interface": "swd",
+            "ipAddress": null,
+            "serialNumber": null,
+        }
+    ]
+}

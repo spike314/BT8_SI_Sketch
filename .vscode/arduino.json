@@ -1,0 +1,8 @@
+{
+    "board": "MySensors:nRF5:MyBoard_nRF52832",
+    "configuration": "bootcode=none,lfclk=lfrc,reset=enabled",
+    "programmer": "Black Magic Probe (GDB)",
+    "sketch": "BT8_SI_OPT_Sketch.ino",
+    "output": "C:/ArduinoBuilds",
+    "port": "COM8"
+}
