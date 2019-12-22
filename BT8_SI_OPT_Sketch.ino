@@ -35,7 +35,7 @@
 
 #define MY_NODE_ID 35 // Passive mode requires static node ID
 
-//#define MY_PASSIVE_NODE // This node does not listen for messages from the controller
+#define MY_PASSIVE_NODE // This node does not listen for messages from the controller
 
 #define MY_RADIO_NRF5_ESB
 #define MY_SIGNING_SOFT
@@ -61,29 +61,23 @@
 #include "MySensorsNRF5setup.h"
 #include "BatteryLevel.h"
 
-
 #define SHORT_WAIT 50
 #define SKETCH_NAME "BT8_SQ"
 #define SKETCH_VERSION "v0.1"
 
-#define CHILD_ID_HUM  0
+#define CHILD_ID_HUM 0
 #define CHILD_ID_TEMP 1
 #define CHILD_ID_BAT 244
 
-BatteryLevel MyBatteryLevel(CHILD_ID_BAT, 60000); //Should use the other constructor
+BatteryLevel MyBatteryLevel(CHILD_ID_BAT, 60000); //This constructor lets you choose the id and time between updates
 
 //------------------------------------------------------------------------
 
-
-static bool metric = true;
+static bool metric = true; // iti s always true for Domoticz
 
 // Sleep time between sensor updates (in milliseconds)
 static const uint64_t UPDATE_INTERVAL = 60000;
 unsigned long currentMillis; // The time since the sensor started, counted in milliseconds. This script tries to avoid using the Sleep function, so that it could at the same time be a MySensors repeater.
-unsigned long sleeptime;
-
-unsigned long HeartbeatMotion, HeartbeatBell, HeartbeatBat; // Last send times for use in hearrbeat
-
 
 #include <SI7021.h>
 static SI7021 sensor;
@@ -99,16 +93,15 @@ void before()
 #endif //MY_DEBUG
 }
 
-void presentation()  
-{ 
+void presentation()
+{
   // Send the sketch info to the gateway
   sendSketchInfo(SKETCH_NAME, SKETCH_VERSION);
 
   // Present sensors as children to gateway
-  present(CHILD_ID_HUM, S_HUM,   "BT8 sq 35/22 Humidity");
+  present(CHILD_ID_HUM, S_HUM, "BT8 sq 35/22 Humidity");
   present(CHILD_ID_TEMP, S_TEMP, "BT8 sq 35/22 Temperature");
-  present(CHILD_ID_BAT, S_MULTIMETER, "BT8 sq 35/22");
-
+  present(CHILD_ID_BAT, S_MULTIMETER, "BT8 sq 35/22"); //This should be containerized with BatteryLevel.h, but not sure how to do that.
 }
 
 void setup()
@@ -118,29 +111,20 @@ void setup()
     Serial.println(F("Sensor not detected!"));
     delay(5000);
   }
-  #ifdef MY_DEBUG
+#ifdef MY_DEBUG
   Serial.println("\nsetup() - Complete");
 #endif //MY_DEBUG
 
-//  blinkityBlink(2);
-
+  //  blinkityBlink(2);
 }
 
-
-void loop()      
-{  
-   currentMillis = millis();
-
-   #ifdef MY_DEBUG
-  Serial.print("Sleep for:  ");
-  Serial.println(sleeptime);
-  SEGGER_RTT_printf(0, "Sleeping for: %u.\r\n", sleeptime);
-#endif //MY_DEBUG
-
+void loop()
+{
+  currentMillis = millis();
 
   // Read temperature & humidity from sensor.
-  const float temperature = float( metric ? sensor.getCelsiusHundredths() : sensor.getFahrenheitHundredths() ) / 100.0;
-  const float humidity    = float( sensor.getHumidityBasisPoints() ) / 100.0;
+  const float temperature = float(metric ? sensor.getCelsiusHundredths() : sensor.getFahrenheitHundredths()) / 100.0;
+  const float humidity = float(sensor.getHumidityBasisPoints()) / 100.0;
 
 #ifdef MY_DEBUG
   Serial.print(F("Temp "));
@@ -150,20 +134,19 @@ void loop()
   Serial.println(humidity);
 #endif
 
-  static MyMessage msgHum( CHILD_ID_HUM,  V_HUM );
+  static MyMessage msgHum(CHILD_ID_HUM, V_HUM);
   static MyMessage msgTemp(CHILD_ID_TEMP, V_TEMP);
 
   send(msgTemp.set(temperature, 2));
   send(msgHum.set(humidity, 2));
- MyBatteryLevel.update(currentMillis); //This should be a low level at the end of calculaitons 
+  MyBatteryLevel.update(currentMillis); //This should be a low level at the end of calculaitons
 
-  // Sleep until next update to save energy
-  #ifdef MY_DEBUG
-  Serial.print("BME280 - zzzzZZZZzzzzZZZZzzzz:  ");
-  Serial.println(sleeptime);
+#ifdef MY_DEBUG
+  Serial.print("Sleep for:  ");
+  Serial.println((unsigned long) UPDATE_INTERVAL);
+  SEGGER_RTT_printf(0, "Sleeping for: %u.\r\n",  UPDATE_INTERVAL);
 #endif //MY_DEBUG
   mySleepPrepare();
 
-  sleep(UPDATE_INTERVAL); 
+  sleep(UPDATE_INTERVAL);
 }
-
