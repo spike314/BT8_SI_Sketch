@@ -62,7 +62,7 @@ public:
     Serial.print(Bat);
     Serial.print(" //  ");
     Serial.println(lastBat);
-    SEGGER_RTT_printf(0, "Bat // lastBat: %u // %u.\r\n", Bat, lastBat);
+  //  SEGGER_RTT_printf(0, "Bat // lastBat: %u // %u.\r\n", Bat, lastBat);
 
 #endif // MY_DEBUG
 
@@ -70,7 +70,7 @@ public:
     {
 #ifdef MY_DEBUG
       Serial.println("Bat > BAT_LOW");
-      SEGGER_RTT_WriteString(0, "\r\nBat > BAT_LOW\r\n");
+    //  SEGGER_RTT_WriteString(0, "\r\nBat > BAT_LOW\r\n");
 
 #endif // MY_DEBUG
       if ((currentMillis - previousMillis) > intervalBat)
@@ -86,7 +86,7 @@ public:
         Serial.print(Bat);
         Serial.print(" //  ");
         Serial.println(BatInt);
-        SEGGER_RTT_printf(0, "Bat // BatInt: %u // %u.\r\n", Bat, BatInt);
+      //  SEGGER_RTT_printf(0, "Bat // BatInt: %u // %u.\r\n", Bat, BatInt);
 
 #endif // MY_DEBUG
 
@@ -96,7 +96,7 @@ public:
       {
 #ifdef MY_DEBUG
         Serial.println("not time yet.  No bat update");
-        SEGGER_RTT_WriteString(0, "\r\nNot time yet.  No bat update\r\n");
+      //  SEGGER_RTT_WriteString(0, "\r\nNot time yet.  No bat update\r\n");
 #endif // MY_DEBUG
       }
     }

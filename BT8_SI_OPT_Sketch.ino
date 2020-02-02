@@ -32,6 +32,7 @@
 
 // if you uncomment this, you can get test and debug updates about everything the sensor is doing by using the serial monitor tool.
 #define MY_DEBUG
+#define MY_DEBUG_VERBOSE_NRF5_ESB
 
 #define MY_NODE_ID 35 // Passive mode requires static node ID
 
@@ -55,8 +56,8 @@
 #define SENDVOLTAGE
 
 // LIBRARIES
-#include <stdio.h>
-#include "SEGGER_RTT.h"
+//#include <stdio.h>
+//#include "SEGGER_RTT.h"
 #include <MySensors.h> // The MySensors library. Hurray!
 #include "MySensorsNRF5setup.h"
 #include "BatteryLevel.h"
@@ -67,35 +68,36 @@
 
 #define CHILD_ID_HUM 0
 #define CHILD_ID_TEMP 1
-#define CHILD_ID_LUM 2
+//#define CHILD_ID_LUM 2
 #define CHILD_ID_BAT 244
 
-BatteryLevel MyBatteryLevel(CHILD_ID_BAT, 60000); //This constructor lets you choose the id and time between updates
+BatteryLevel MyBatteryLevel(CHILD_ID_BAT, 300000); //This constructor lets you choose the id and time between updates
 
 //------------------------------------------------------------------------
 
-static bool metric = true; // iti s always true for Domoticz
+static bool metric = true; // it is always true for Domoticz
 
 // Sleep time between sensor updates (in milliseconds)
 static const uint64_t UPDATE_INTERVAL = 60000;
 unsigned long currentMillis; // The time since the sensor started, counted in milliseconds. This script tries to avoid using the Sleep function, so that it could at the same time be a MySensors repeater.
 #include <Wire.h>
-#include <ClosedCube_OPT3001.h>
+// #include <ClosedCube_OPT3001.h>
 
 #include <SI7021.h>
 static SI7021 sensor;
-ClosedCube_OPT3001 opt3001;
+// ClosedCube_OPT3001 opt3001;
 
-#define OPT3001_ADDRESS 0x45
+// #define OPT3001_ADDRESS 0x44
+
 
 void before()
 {
 #ifdef MY_DEBUG
-  SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
+//  SEGGER_RTT_ConfigUpBuffer(0, NULL, NULL, 0, SEGGER_RTT_MODE_BLOCK_IF_FIFO_FULL);
   wait(5);
 
   Serial.println("\nbefore() - Complete");
-  SEGGER_RTT_WriteString(0, "\r\nbefore() - Complete\r\n");
+//  SEGGER_RTT_WriteString(0, "\r\nbefore() - Complete\r\n");
 #endif //MY_DEBUG
 }
 
@@ -105,10 +107,10 @@ void presentation()
   sendSketchInfo(SKETCH_NAME, SKETCH_VERSION);
 
   // Present sensors as children to gateway
-  present(CHILD_ID_HUM, S_HUM, "BT8 sq 35/22 Humidity");
-  present(CHILD_ID_TEMP, S_TEMP, "BT8 sq 35/22 Temperature");
-  present(CHILD_ID_LUM, S_LIGHT_LEVEL, "BT8 sq 35/22 Lux");
-  present(CHILD_ID_BAT, S_MULTIMETER, "BT8 sq 35/22 bat"); //This should be containerized with BatteryLevel.h, but not sure how to do that.
+  present(CHILD_ID_HUM, S_HUM, "BT8 sq 35/23 Humidity");
+  present(CHILD_ID_TEMP, S_TEMP, "BT8 sq 35/23 Temperature");
+//  present(CHILD_ID_LUM, S_LIGHT_LEVEL, "BT8 sq 35/23 Lux");
+  present(CHILD_ID_BAT, S_MULTIMETER, "BT8 sq 35/23 bat"); //This should be containerized with BatteryLevel.h, but not sure how to do that.
 }
 
 void setup()
@@ -118,7 +120,7 @@ void setup()
     Serial.println(F("Sensor not detected!"));
     delay(5000);
   }
-  	opt3001.begin(OPT3001_ADDRESS);
+ /* 	opt3001.begin(OPT3001_ADDRESS);
 
 #ifdef MY_DEBUG
 	Serial.print("OPT3001 Manufacturer ID");
@@ -133,7 +135,7 @@ void setup()
 
   Serial.println("\nsetup() - Complete");
 #endif //MY_DEBUG
-
+*/
   //  blinkityBlink(2);
 }
 
@@ -152,28 +154,28 @@ void loop()
   Serial.print(F("\tHum "));
   Serial.println(humidity);
 #endif
-	OPT3001 result = opt3001.readResult();
-	printResult("OPT3001", result);
+//	OPT3001 result = opt3001.readResult();
+//	printResult("OPT3001", result);
 
   static MyMessage msgHum(CHILD_ID_HUM, V_HUM);
   static MyMessage msgTemp(CHILD_ID_TEMP, V_TEMP);
-  static MyMessage msgLum(CHILD_ID_TEMP, V_LEVEL);
+//  static MyMessage msgLum(CHILD_ID_LUM, V_LEVEL);
 
   send(msgTemp.set(temperature, 2));
   send(msgHum.set(humidity, 2));
-  send(msgLum.set(result.lux, 2));
+//  send(msgLum.set(result.lux, 2));
   MyBatteryLevel.update(currentMillis); //This should be a low level at the end of calculaitons
 
 #ifdef MY_DEBUG
   Serial.print("Sleep for:  ");
   Serial.println((unsigned long) UPDATE_INTERVAL);
-  SEGGER_RTT_printf(0, "Sleeping for: %u.\r\n",  UPDATE_INTERVAL);
+ // SEGGER_RTT_printf(0, "Sleeping for: %u.\r\n",  UPDATE_INTERVAL);
 #endif //MY_DEBUG
   mySleepPrepare();
 
   sleep(UPDATE_INTERVAL);
 }
-
+/*
 void configureSensor() {
 	OPT3001_Config newConfig;
 	
@@ -245,3 +247,4 @@ void printError(String text, OPT3001_ErrorCode error) {
 	Serial.print(": [ERROR] Code #");
 	Serial.println(error);
 }
+*/
