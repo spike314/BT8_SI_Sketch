@@ -62,7 +62,6 @@ public:
     Serial.print(Bat);
     Serial.print(" //  ");
     Serial.println(lastBat);
-  //  SEGGER_RTT_printf(0, "Bat // lastBat: %u // %u.\r\n", Bat, lastBat);
 
 #endif // MY_DEBUG
 
@@ -70,7 +69,6 @@ public:
     {
 #ifdef MY_DEBUG
       Serial.println("Bat > BAT_LOW");
-    //  SEGGER_RTT_WriteString(0, "\r\nBat > BAT_LOW\r\n");
 
 #endif // MY_DEBUG
       if ((currentMillis - previousMillis) > intervalBat)
@@ -79,15 +77,13 @@ public:
         sendBatteryLevel(BatInt);
 #ifdef SENDVOLTAGE
         send(Msg_battery.set(Bat / 1000.0, 3)); //send battery voltage with 3 decimal places
-#endif                                          //SENDVOLTAGE
+#endif  //SENDVOLTAGE
         previousMillis = currentMillis;
 #ifdef MY_DEBUG
         Serial.print("\nBat //  BatInt:  ");
         Serial.print(Bat);
         Serial.print(" //  ");
         Serial.println(BatInt);
-      //  SEGGER_RTT_printf(0, "Bat // BatInt: %u // %u.\r\n", Bat, BatInt);
-
 #endif // MY_DEBUG
 
         lastBat = Bat;
@@ -95,8 +91,7 @@ public:
       else
       {
 #ifdef MY_DEBUG
-        Serial.println("not time yet.  No bat update");
-      //  SEGGER_RTT_WriteString(0, "\r\nNot time yet.  No bat update\r\n");
+        Serial.println("No bat update -not time yet.");
 #endif // MY_DEBUG
       }
     }
@@ -105,7 +100,7 @@ public:
       sendBatteryLevel(0);
 #ifdef SENDVOLTAGE
       send(Msg_battery.set(Bat / 1000.0, 3)); //send battery voltage with 3 decimal places
-#endif                                        //ID_BATTERY
+#endif  //ID_BATTERY
 #ifdef LIFEPO4
       sleep(0); //Go to sleep forever to try and save the battery (bad for LifePo4 to get less than 2.8V)
 #endif          //LIFEPO4

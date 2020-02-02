@@ -1,7 +1,11 @@
 /*
  Name:		MySensorsNRF5setup.h
  Created:	2/5/2018 9:40:20 PM
- Author:	Carl Nagel
+ 
+ Routines for use with MySensors and NRF5 based controllers originally developed by NeverDie
+ See sketch here:  https://www.openhardware.io/view/499/10-years-wireless-PIR-Sensor-on-just-one-set-of-3-AAs#tabs-source
+ Also, background in the forum here: https://forum.mysensors.org/topic/6961/nrf5-action?_=1580654209821
+
 */
 
 // If using MY_DEBUG for serial prints, declare #define MY_DEBUG before including this file
